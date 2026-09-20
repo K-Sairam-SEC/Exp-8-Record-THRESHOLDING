@@ -68,49 +68,64 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Step 2: Read the image and convert to grayscale
-image = cv2.imread('ex8.png')  # Replace with your image file path
-gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+img = cv2.imread(r"C:\Users\Phexl\Pictures\Screenshots\gun.png")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# Original Image
-plt.subplot(2, 2, 1)
-plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))  # Convert from BGR to RGB for display
-plt.title("Original Image")
-plt.axis('off')
+_, global_thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
 
-# Global Thresholding
-plt.subplot(2, 2, 2)
-plt.imshow(global_thresholded, cmap='gray')
-plt.title("Global Thresholding")
-plt.axis('off')
+adaptive_mean = cv2.adaptiveThreshold(
+    gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+    cv2.THRESH_BINARY, 11, 2
+)
 
-# Adaptive Thresholding
-plt.subplot(2, 2, 3)
-plt.imshow(adaptive_thresholded, cmap='gray')
-plt.title("Adaptive Thresholding")
-plt.axis('off')
+adaptive_gaussian = cv2.adaptiveThreshold(
+    gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv2.THRESH_BINARY, 11, 2
+)
 
-# Otsu's Method
-plt.subplot(2, 2, 4)
-plt.imshow(otsu_thresholded, cmap='gray')
-plt.title("Otsu's Method")
-plt.axis('off')
+_, otsu = cv2.threshold(
+    gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
+)
 
-# Show the plot
+plt.figure(figsize=(12, 8))
+
+plt.subplot(2, 3, 1)
+plt.imshow(gray, cmap="gray")
+plt.title("Grayscale")
+plt.axis("off")
+
+plt.subplot(2, 3, 2)
+plt.imshow(global_thresh, cmap="gray")
+plt.title("Global Threshold")
+plt.axis("off")
+
+plt.subplot(2, 3, 3)
+plt.imshow(adaptive_mean, cmap="gray")
+plt.title("Adaptive Mean")
+plt.axis("off")
+
+plt.subplot(2, 3, 4)
+plt.imshow(adaptive_gaussian, cmap="gray")
+plt.title("Adaptive Gaussian")
+plt.axis("off")
+
+plt.subplot(2, 3, 5)
+plt.imshow(otsu, cmap="gray")
+plt.title("Otsu Threshold")
+plt.axis("off")
+
 plt.tight_layout()
 plt.show()
 ```
 
 ## Output
-<img width="259" height="215" alt="image" src="https://github.com/user-attachments/assets/74db5d41-75d7-4bee-a6b0-cfcc2cadd590" />
-
-<img width="726" height="521" alt="image" src="https://github.com/user-attachments/assets/c7aabdeb-4158-4ffa-a8f3-ff0d4517cdd1" />
-
+<img width="894" height="529" alt="image" src="https://github.com/user-attachments/assets/f8a42599-0f45-4239-9b04-0ca2c460c25e" />
 
 ### Original Grayscale Image
 
 - The grayscale version of the input image is displayed.
 - Serves as the input for thresholding operations.
+<img width="293" height="248" alt="image" src="https://github.com/user-attachments/assets/4f53bc36-fb65-4c2c-a54b-566965f01bf4" />
 
 ### Global Thresholding
 
@@ -118,6 +133,7 @@ plt.show()
 - Thresholded image is displayed.
 - A fixed threshold value is used for segmentation.
 - Pixels are classified as foreground or background.
+<img width="301" height="249" alt="image" src="https://github.com/user-attachments/assets/29e81ef1-b36b-4bee-8138-3a16f45a7132" />
 
 ### Adaptive Thresholding
 
@@ -126,6 +142,8 @@ plt.show()
 - Adaptive Gaussian Thresholded image is displayed.
 - Threshold values vary across different regions of the image.
 - Suitable for images with uneven illumination.
+<img width="305" height="250" alt="image" src="https://github.com/user-attachments/assets/29560240-4b47-4486-9bfa-a63b894a0c4b" />
+<img width="298" height="248" alt="image" src="https://github.com/user-attachments/assets/c0b66f75-4838-41c9-949c-70a0b5d4541a" />
 
 ### Otsu's Thresholding
 
@@ -133,6 +151,7 @@ plt.show()
 - Otsu segmented image is displayed.
 - Optimal threshold value is calculated automatically.
 - Produces improved segmentation for bimodal histograms.
+<img width="307" height="255" alt="image" src="https://github.com/user-attachments/assets/2a675e33-b16f-43a4-83ad-dea60551b84e" />
 
 
 ## Result
